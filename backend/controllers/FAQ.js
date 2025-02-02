@@ -2,7 +2,7 @@ const FAQ = require('../models/FaqSchema');
 const FAQTranslation = require('../models/TranslationSchema');
 const {translate} = require("@vitalets/google-translate-api");
 require('dotenv').config();
-// const {promisify} = require('util');
+
 
 const redis = require('redis');
 const REDIS_PORT = process.env.REDIS_PORT || 8001;
@@ -18,16 +18,7 @@ let client;
         client.connect()
         .then(() => console.log("Connected to Redis"))
         .catch((err) => console.error("Redis connection error:", err));
-        // try {
-        //     await client.connect();
-        //     // console.log("✅ Redis connected successfully");
-        // } catch (error) {
-        //     console.error("Redis connection failed:", error);
-        // }
-
-        // await client.connect(); 
-        // set_async = await promisify(client.set).bind(client)
-        // get_async = await promisify(client.get).bind(client)
+        
     }
 )();
 
