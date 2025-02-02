@@ -9,6 +9,7 @@
 5. User schema for differentiating both users : admin and user
 6. implement middleware for providing protected access
 7. implement react-redux for state management globally in website
+8. Authentication and autherization using jwt tokens
 
 
 ## Installation
