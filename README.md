@@ -88,3 +88,8 @@ sign-in and sign-up pages url
 after login , User Can explore all faqs. Translate the faq by selected a target language through drop-down menu;
 
 # Caching Using Redis in node.js
+
+## for testing
+in backend folder on terminal run this command
+npm test
+
