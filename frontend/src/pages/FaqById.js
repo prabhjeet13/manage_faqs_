@@ -4,12 +4,16 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom'
 import { languages } from '../utils/languages';
 import {useSelector} from 'react-redux';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
-
+import { BtnBold, 
+  BtnItalic, 
+  createButton, 
+  Editor, 
+  EditorProvider, 
+  Toolbar} from 'react-simple-wysiwyg'; // Import WYSIWYG editor
+const BtnAlignCenter = createButton('Align center', '≡', 'justifyCenter');
 const FaqById = () => {
 
-  const {userData} = useSelector((state) => state.profile);
+  const {userData,token} = useSelector((state) => state.profile);
   const {faqid} = useParams();
   const [faq,setfaq] = useState(null);
   const [lang,setlang] = useState('non');
@@ -18,6 +22,17 @@ const FaqById = () => {
        answer : '', 
        question : ''
   });
+
+  // const [editorStateQuestion, setEditorStateQuestion] = useState('');
+  // const [editorStateAnswer, setEditorStateAnswer] = useState('');
+
+  const onEditorChangeQuestion = (e) => {
+    setformData((prev) => ({ ...prev, [e.target.name] : e.target.value }));
+  };
+  
+  const onEditorChangeAnswer = (e) => {
+    setformData((prev) => ({ ...prev, [e.target.name] : e.target.value }));
+  };
 
   const fetchTranslated = async () =>
   {
@@ -80,6 +95,25 @@ const FaqById = () => {
        return <div className='text-3xl text-center underline font-bold font-mono'> 404 - NO FAQ ... </div>
   }
 
+  const handleSubmit = async (e) => {
+      e.preventDefault();
+      const toastid = toast.loading('waiting for faqs ...');
+        try {
+            const response = await axios.post('http://localhost:4000/api/faqs/editfaq',{... formData,token,faqid});
+            if(!response.data.success)
+            {
+               throw new Error('Not able to do');
+            }else {
+              setfaq(response.data.details);
+              toast.success('done');
+            }
+        }catch(e)
+        {
+            toast.error('Try Again later');
+        }
+        toast.dismiss(toastid);
+  }
+
   return (
     <div className='w-11/12 max-w-[1260px] mx-auto flex flex-col items-start'>
          <select className='p-3 m-2 w-fit rounded-md cursor-pointer bg-lime-300' onChange={(e) => setlang(e.target.value)}>
@@ -96,30 +130,48 @@ const FaqById = () => {
         {/* EDITOR FOR ADMINS */}
         {
            userData.account_type === "admin" && (
-            <div className="text-black w-full bg-gray-100 p-5 rounded-lg shadow-lg">
-          <h3 className="font-bold mb-3">Edit FAQ</h3>
-          <div className="mb-3">
-            <label className="font-semibold">Question:</label>
-            <CKEditor
-              editor={DecoupledEditor}
-              data={formData.question}
-              onChange={(event, editor) => {
-                const data = editor.getData();
-                setformData((prev) => ({ ...prev, question: data }));
-              }}
-            />
+            <div className='text-black'>
+          <h3 className='font-bold mb-3'>Edit FAQ</h3>
+          <div className='mb-3'>
+            <label className='font-semibold'>Question:</label>
+            <EditorProvider>
+              <Editor
+                value={formData.question}
+                onChange={(e) => onEditorChangeQuestion(e)}
+                placeholder='Type your question here...'
+                name='question'
+              >
+                <Toolbar>
+                    <BtnBold />
+                    <BtnItalic />
+                    <BtnAlignCenter />
+                </Toolbar>
+              </Editor>
+            </EditorProvider>
           </div>
-          <div className="mb-3">
-            <label className="font-semibold">Answer:</label>
-            <CKEditor
-              editor={DecoupledEditor}
-              data={formData.answer}
-              onChange={(event, editor) => {
-                const data = editor.getData();
-                setformData((prev) => ({ ...prev, answer: data }));
-              }}
-            />
+          <div className='mb-3'>
+            <label className='font-semibold'>Answer:</label>
+            <EditorProvider>
+              <Editor
+                value={formData.answer}
+                onChange={(e) => onEditorChangeAnswer(e)}
+                placeholder='Type your answer here...'
+                name='answer'
+              >
+                <Toolbar>
+                    <BtnBold />
+                    <BtnItalic />
+                    <BtnAlignCenter />
+                </Toolbar>
+              </Editor>
+            </EditorProvider>
           </div>
+          <button
+            onClick={handleSubmit}
+            className='px-4 py-2 bg-blue-500 text-white rounded-md mt-3'
+          >
+            Submit
+          </button>
         </div>)
         }
     </div>
