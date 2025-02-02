@@ -67,14 +67,14 @@ in frontend folder , terminal
 num run start
 
 ## API Endpoints
-GET /api/faqs/getallfaqs
-POST /api/faqs/getbyid
-POST /api/faqs/createfaq
-POST /api/faqs/deletefaq/:faqid
-POST /api/auth/signup
-POST /api/auth/signin
-POST /api/faqs/editfaq
-POST /api/faqs/translatefaq?lang=hi
+GET http://localhost:4000/api/faqs/getallfaqs
+POST http://localhost:4000/api/faqs/getbyid
+POST http://localhost:4000/api/faqs/createfaq
+POST http://localhost:4000/api/faqs/deletefaq/:faqid
+POST http://localhost:4000/api/auth/signup
+POST http://localhost:4000/api/auth/signin
+POST http://localhost:4000/api/faqs/editfaq
+POST http://localhost:4000/api/faqs/translatefaq?lang=hi
 
 ## description 
 # Admin 
@@ -97,3 +97,6 @@ after login , User Can explore all faqs. Translate the faq by selected a target 
 in backend folder on terminal run this command
 npm test
 
+
+## ScreenShots
+![alt text](image-1.png)
