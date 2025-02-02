@@ -55,6 +55,10 @@ MONGODB_URL = _MONGODB_URL_
 JWT_SECRET = JWT_SECRET
 REDIS_PORT = 6379
 
+## install of redis from the given url
+# https://github.com/tporadowski/redis/releases
+You can install .msi file and add its path in environmental variables
+
 ## Start
 in backend folder , terminal 
 npm run dev
