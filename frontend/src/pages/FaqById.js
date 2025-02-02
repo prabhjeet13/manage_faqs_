@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast';
 import axios from 'axios';
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { languages } from '../utils/languages';
 import {useSelector} from 'react-redux';
 import { BtnBold, 
@@ -10,6 +10,7 @@ import { BtnBold,
   Editor, 
   EditorProvider, 
   Toolbar} from 'react-simple-wysiwyg'; // Import WYSIWYG editor
+// import 'react-simple-wysiwyg/dist/react-simple-wysiwyg.css';
 const BtnAlignCenter = createButton('Align center', '≡', 'justifyCenter');
 const FaqById = () => {
 
@@ -17,14 +18,13 @@ const FaqById = () => {
   const {faqid} = useParams();
   const [faq,setfaq] = useState(null);
   const [lang,setlang] = useState('non');
+  const navigate = useNavigate();
 
   const [formData,setformData] = useState({
        answer : '', 
        question : ''
   });
 
-  // const [editorStateQuestion, setEditorStateQuestion] = useState('');
-  // const [editorStateAnswer, setEditorStateAnswer] = useState('');
 
   const onEditorChangeQuestion = (e) => {
     setformData((prev) => ({ ...prev, [e.target.name] : e.target.value }));
@@ -97,6 +97,7 @@ const FaqById = () => {
 
   const handleSubmit = async (e) => {
       e.preventDefault();
+      console.log(formData);
       const toastid = toast.loading('waiting for faqs ...');
         try {
             const response = await axios.post('http://localhost:4000/api/faqs/editfaq',{... formData,token,faqid});
@@ -105,7 +106,10 @@ const FaqById = () => {
                throw new Error('Not able to do');
             }else {
               setfaq(response.data.details);
+              formData.answer = '';
+              formData.question = '';
               toast.success('done');
+              navigate(`/get-a-faq/${faqid}`);;
             }
         }catch(e)
         {
@@ -130,8 +134,8 @@ const FaqById = () => {
         {/* EDITOR FOR ADMINS */}
         {
            userData.account_type === "admin" && (
-            <div className='text-black'>
-          <h3 className='font-bold mb-3'>Edit FAQ</h3>
+        <div className='text-black w-[50%] m-2'>
+          <h3 className='font-bold mb-3 underline text-3xl font-mono uppercase'>Edit FAQ</h3>
           <div className='mb-3'>
             <label className='font-semibold'>Question:</label>
             <EditorProvider>
@@ -140,6 +144,7 @@ const FaqById = () => {
                 onChange={(e) => onEditorChangeQuestion(e)}
                 placeholder='Type your question here...'
                 name='question'
+                className='w-[10/12]'
               >
                 <Toolbar>
                     <BtnBold />
@@ -168,7 +173,7 @@ const FaqById = () => {
           </div>
           <button
             onClick={handleSubmit}
-            className='px-4 py-2 bg-blue-500 text-white rounded-md mt-3'
+            className='px-4 py-2 bg-yellow-500 text-black rounded-md mt-3 font-bold transition-all duration-200 hover:scale-90'
           >
             Submit
           </button>
