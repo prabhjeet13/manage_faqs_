@@ -105,7 +105,7 @@ after login , User Can explore all faqs. Translate the faq by selected a target 
 
 # Caching Using Redis in node.js
 
-## for testing
+## for testing using mocha chai in node.js
 in backend folder on terminal run this command
 npm test
 
