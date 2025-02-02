@@ -1,5 +1,16 @@
 # manage_faqs_
 
+## approach
+
+1. I have made 3 model FAQ , Translation,User
+2. Admin will add a faq (question and answer) in FAQ model
+3. When we select a language from drop-downmenu on frontend
+4. We will store its translation in Translation model for a particular FAQ
+5. User schema for differentiating both users : admin and user
+6. implement middleware for providing protected access
+7. implement react-redux for state management globally in website
+
+
 ## Installation
 Installation
 First, clone the repository and navigate to the project directory:
@@ -99,4 +110,42 @@ npm test
 
 
 ## ScreenShots
+# user-side
+sign-in page
 ![alt text](image-1.png)
+
+sign-up page
+![alt text](image-5.png)
+
+profile page
+![alt text](image-2.png)
+
+faqs page
+![alt text](image-3.png)
+
+faq page
+![alt text](image-4.png)
+
+# admin-side
+sigin-page
+![alt text](image-7.png)
+signup-page
+![alt text](image-6.png)
+profile-page
+![alt text](image-8.png)
+add-faq page
+![alt text](image-9.png)
+faqs page
+![alt text](image-10.png)
+faq page
+![alt text](image-11.png)
+
+
+## Translate to hindi language
+![alt text](image-12.png)
+
+## Translate to german language
+![alt text](image-13.png)
+
+## formating of question and answer using editor
+![alt text](image-14.png)
